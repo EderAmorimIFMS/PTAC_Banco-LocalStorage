@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Aula 3</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+  
+<body onload="carregar()" onunload="salvar()">
+
+  <h1 id="titulo">Inicio</h1> 
+  <button onclick="editar()">Editar</button>
+  <br/>
+  <br/>
+
+  <form> 
+  <label>Digite um item:</label>
+  <br/>
+  <input type="text" id="item"/>
+ </form>
+
+  <br/>
+  <button onclick="addLista()">Add</button>
+  <button onclick="limparLista()">Limpar</button>
+
+  <ul id="minhalista">
+  
+  </ul>
+
+
+  <script>
+let compras={
+    titulo:"Minha Lista",
+    itens:['Arroz','Feijão']
+}
+
+function salvar(){
+    localStorage.setItem('listacompras',JSON.stringify(compras));
+}
+
+function carregar(){
+  let dadosalvo = localStorage.getItem("listacompras");
+if(dadosalvo){
+  compras = JSON.parse(dadosalvo);
+}
+    renderizar();
+}
+
+function renderizar(){
+    document.getElementById("titulo").textContent=compras.titulo;
+    document.getElementById("minhalista").innerHTML='';
+    for(let item of compras.itens){
+    const elemento = document.createElement("li");
+    const texto = document.createTextNode(item);
+    elemento.appendChild(texto)
+    document.getElementById("minhalista").appendChild(elemento);
+    }
+}
+
+function editar(){
+   compras.titulo = prompt("Digite outro titulo");
+   renderizar();
+}
+
+function addLista(){
+   compras.itens.push(document.getElementById("item").value);
+   renderizar();
+}
+
+function limparLista(){
+    compras.itens=[];
+    renderizar();
+}
+
+  </script>
+  
+</body>
+</html>
